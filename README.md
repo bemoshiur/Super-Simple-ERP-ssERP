@@ -23,6 +23,12 @@ Built with Next.js 16, React 19, Drizzle ORM and PostgreSQL. [Neon](https://neon
 
 > Status: **v0.1.0**, first public release (alpha). See [Project status](#project-status) for what is verified and what is not, [CHANGELOG.md](CHANGELOG.md), and the [roadmap](docs/ROADMAP.md) for what is not built yet.
 
+<p align="center">
+  <img src="docs/screenshots/demo.gif" alt="ssERP demo: scan a serial at the POS, sell it, then look up its full history" width="900">
+</p>
+
+<p align="center"><sub>Scan a serial at the POS → sell → look up the unit's full history. Demo data. (<a href="docs/screenshots/demo.webm">WebM, 0.7&nbsp;MB</a>)</sub></p>
+
 ## Contents
 
 - [Why ssERP](#why-sserp)
