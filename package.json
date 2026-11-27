@@ -2,7 +2,30 @@
   "name": "sserp",
   "version": "0.1.0",
   "description": "Super Simple ERP - open-source ERP, Inventory and Billing with serial/IMEI tracking (Next.js + Neon)",
-  "author": "bemoshiur",
+  "keywords": [
+    "erp",
+    "inventory",
+    "billing",
+    "pos",
+    "imei",
+    "serial-number",
+    "warranty",
+    "nextjs",
+    "drizzle",
+    "postgres",
+    "neon",
+    "bangladesh",
+    "open-source"
+  ],
+  "homepage": "https://github.com/bemoshiur/Super-Simple-ERP-ssERP#readme",
+  "bugs": {
+    "url": "https://github.com/bemoshiur/Super-Simple-ERP-ssERP/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bemoshiur/Super-Simple-ERP-ssERP.git"
+  },
+  "author": "S M Moshiur Rahman (https://github.com/bemoshiur)",
   "license": "MIT",
   "engines": {
     "node": ">=20.9.0"
