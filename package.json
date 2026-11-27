@@ -61,7 +61,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.2",
     "drizzle-kit": "^0.31.11",
-    "eslint": "^9.39.4",
+    "eslint": "^10.15.0",
     "eslint-config-next": "^16.4.6",
     "prettier": "^3.6.2",
     "sass": "1.77.6",
