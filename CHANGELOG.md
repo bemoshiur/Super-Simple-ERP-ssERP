@@ -3,6 +3,22 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Open-source project setup: `SUPPORT.md`, `GOVERNANCE.md`, `CITATION.cff`, `.editorconfig`, `.gitattributes`, `.nvmrc`, and `repository` / `bugs` / `homepage` / `keywords` / `author` metadata in `package.json`.
+- GitHub issue forms (bug report, feature request, question) with contact links to private security advisories, Discussions and the wiki; `CODEOWNERS`; a pull request checklist that mirrors the contribution invariants.
+- `.github/labels.yml` and `scripts/sync-labels.sh` (type, status, priority, area and community labels).
+- Workflows: CodeQL (JavaScript/TypeScript), dependency review (fails on high-severity advisories, licence allow-list), OpenSSF Scorecard, release on `v*` tags (tag must match `package.json`, checks and build, GitHub Release with generated notes, pre-release below 1.0.0), stale issues and pull requests (60 + 14 days, with exemptions), first-interaction greetings.
+- Dependabot: grouped weekly minor/patch updates for npm, GitHub Actions and the Docker base image; major upgrades of core frameworks are left to maintainers.
+- `npm run check:docs` (`scripts/check-links.mjs`): relative link and anchor check for README, docs and wiki sources, run in a new CI `docs` job.
+- Documentation: `docs/ARCHITECTURE.md`, `docs/RELEASING.md`, `docs/MAINTAINING.md`, `docs/SOCIAL_PREVIEW.md` and `docs/social-preview.png` (rendered by `scripts/make-social-preview.mjs`); wiki sources in `docs/wiki/` published with `scripts/sync-wiki.sh`.
+- README: badges, table of contents, "Why ssERP", "Project status" (what is and is not verified), "Community and support"; matching sections in the Bengali README.
+
+### Changed
+- CI: every GitHub Action is pinned to a full commit SHA (behaviour unchanged).
+- README: the unit status list now matches the state machine (there is no separate "returned" status), and the stock-adjustment limits say that no screen moves a damaged unit back into stock.
+
 ## [0.1.0] - YYYY-MM-DD (unreleased; set the date when tagging)
 
 First public release.
@@ -65,3 +81,6 @@ First public release.
 - One company per install in the UI (the schema is multi-company ready). Branch transfers are immediate (no in-transit state).
 - No public API or mobile app yet. See [docs/ROADMAP.md](docs/ROADMAP.md).
 - English UI only.
+
+[Unreleased]: https://github.com/bemoshiur/Super-Simple-ERP-ssERP/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/bemoshiur/Super-Simple-ERP-ssERP/releases/tag/v0.1.0

@@ -25,10 +25,11 @@ npx tsc --noEmit
 npm test               # unit tests, no database
 npm run test:db        # database tests on a throwaway local PostgreSQL (needs initdb/pg_ctl installed)
 npm run test:e2e       # Playwright smoke test (throwaway PostgreSQL + production build; npx playwright install chromium once)
+npm run check:docs     # relative links and anchors in README, docs/ and docs/wiki/
 npm run build
 ```
 
-CI runs the same checks.
+CI runs the same checks, plus CodeQL and a dependency review on pull requests.
 
 ## Branches and commits
 
@@ -53,6 +54,28 @@ These protect people's money and stock records. Reviewers will check them.
 11. **Branch scope (Task 14).** Branch-owned data (documents, payments, stock, units, tickets, reports) is scoped by `src/server/branch.ts`: reads take an explicit `BranchFilter` (from `branchScope(session).filter` for lists/reports, `.restrict` for detail pages), writes take a `WriteCtx` (`writeCtx(scope)` in actions via `guardedBranch`). Never read a branch id from the client. **Branch scope registry:** every exported function of the scoped data-layer modules must be classified in `src/server/branch-scope-registry.test.ts` (and every module under `src/server` must be in its `REGISTRY` or in `UNSCOPED_MODULES` with a reason) as `scoped` (its parameters must include `branch`, `restrict`, `branchId`, `scope` or `ctx`), `company: <reason>`, `pure` or `internal: <reason>`. A new export that is not listed fails `npm test`; add new branch-owned reads to the behavioural matrix in `src/server/branches/isolation.db.test.ts` too.
 
 **Cost visibility.** Never send cost data to a client component unless the viewer may see it: profit visibility (`canSeeProfit`: `reports.view` or `sales.edit`) gates stock values, net costs, the product list purchase price, report cost/profit columns and the dashboard stock value; omit the field server-side (do not just hide the column). `purchases.view` implies seeing purchase costs on purchase documents, the purchase import and a vendor's supplied units.
+
+## Documentation and the wiki
+
+The GitHub wiki is generated from [docs/wiki/](docs/wiki/Home.md). Change wiki pages there, in the same pull request as
+the behaviour they describe; a maintainer publishes them with `scripts/sync-wiki.sh` after merging. Wiki links use
+the form `[Text](Page-Name)`. Add user-visible changes to the `[Unreleased]` section of [CHANGELOG.md](CHANGELOG.md).
+Every factual statement in the docs must be true for the code: check environment variables, routes, permissions and
+limits in the source before writing them down.
+
+## Dependency updates
+
+- Dependabot ([.github/dependabot.yml](.github/dependabot.yml)) opens grouped **minor and patch** updates weekly:
+  `production-deps` and `dev-deps` for npm, one group for GitHub Actions, and the Docker base image. Commit messages
+  use `build(deps)` / `ci(deps)`.
+- **Major versions** of core frameworks (Next.js, React, TypeScript, Vitest, `@types/node`, Drizzle ORM and Kit,
+  TanStack Table, Bootstrap, React-Bootstrap, Zod, Sass, the Node.js base image) are ignored by Dependabot. They are
+  upgraded by maintainers in dedicated pull requests with migration notes, because they need code or data changes.
+  Please do not send drive-by major upgrades; open an issue first if you need one.
+- New dependencies need a licence on the dependency-review allow-list
+  ([.github/workflows/dependency-review.yml](.github/workflows/dependency-review.yml)) and a line in
+  [docs/THIRD_PARTY.md](docs/THIRD_PARTY.md).
+- GitHub Actions are pinned to full commit SHAs with the version in a comment. Keep that form when adding a step.
 
 ## Pull requests
 

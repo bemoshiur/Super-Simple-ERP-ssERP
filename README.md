@@ -1,6 +1,17 @@
 # ssERP (Super Simple ERP)
 
-[বাংলা README](README.bn.md) · [Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+**Serial-tracked ERP, inventory & billing.** Open source, MIT licensed.
+
+[![CI](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/bemoshiur/Super-Simple-ERP-ssERP/badge)](https://scorecard.dev/viewer/?uri=github.com/bemoshiur/Super-Simple-ERP-ssERP)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/bemoshiur/Super-Simple-ERP-ssERP?include_prereleases&sort=semver)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/releases)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Node.js >= 20.9](https://img.shields.io/badge/node-%3E%3D20.9-339933?logo=nodedotjs&logoColor=white)](package.json)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs)](https://nextjs.org)
+
+[বাংলা README](README.bn.md) · [Wiki](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki) · [Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Support](SUPPORT.md)
 
 Open-source ERP, inventory and billing for shops that sell **serialised goods**: phones, CCTV, laptops, appliances, anything where every physical unit has a serial number or IMEI. ssERP tracks each unit from the vendor's invoice to the customer's hands, and on into warranty and service.
 
@@ -10,7 +21,68 @@ Vendor -> Purchase -> Inventory -> Sales -> Customer -> Warranty / Service
 
 Built with Next.js 16, React 19, Drizzle ORM and PostgreSQL. [Neon](https://neon.tech) is the recommended database (free tier, serverless); any plain PostgreSQL also works. English UI, with Bengali-friendly money input (for example `1,00,000`) and an `Asia/Dhaka` default time zone.
 
-> Status: **v0.1.0**, first public release. See [CHANGELOG.md](CHANGELOG.md) and the [roadmap](docs/ROADMAP.md) for what is not built yet.
+> Status: **v0.1.0**, first public release (alpha). See [Project status](#project-status) for what is verified and what is not, [CHANGELOG.md](CHANGELOG.md), and the [roadmap](docs/ROADMAP.md) for what is not built yet.
+
+## Contents
+
+- [Why ssERP](#why-sserp)
+- [Project status](#project-status)
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Install](#install): [Vercel + Neon](#a-one-click-vercel--neon) · [Local](#b-local-machine) · [Docker](#c-docker)
+- [Upgrading](#upgrading)
+- [Configuration](#configuration)
+- [Security notes](#security-notes)
+- [Roles and permissions](#roles-and-permissions)
+- [Multiple branches](#multiple-branches)
+- [Money and serial integrity](#money-and-serial-integrity)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [Community and support](#community-and-support)
+- [License](#license)
+
+## Why ssERP
+
+Most small-shop billing tools count stock as a number. A shop that sells phones, cameras or laptops needs more: for
+each **individual unit** it has to know where it came from, what it cost, who bought it, when its warranty ends and
+what happened to it since. ssERP is built around that unit:
+
+- **One record per physical unit.** Every serial or IMEI has a status (in stock, sold, in service, damaged, returned
+  to vendor) and an append-only history, from the purchase invoice to the last service ticket.
+- **Scan-first workflows.** Purchases, the POS, serial lookup and stock counts accept USB scanners and phone cameras;
+  labels with QR codes can be printed for units that arrive without one.
+- **Books that add up.** Exact money arithmetic, one database transaction per operation, profit and loss that accounts
+  for returns and stock write-offs, and a cash-flow report reconciled against account balances.
+- **Made for small teams.** A permission matrix that hides costs from sales staff, multiple branches with transfers,
+  and deployment on a free Vercel + Neon setup or any server with Node.js and PostgreSQL.
+- **Bangladesh-friendly defaults.** Lakh-style grouping in money input, `৳`, `Asia/Dhaka`, a bKash account out of the
+  box and Bengali text rendering. The interface itself is English for now.
+
+It is not a full accounting package (no double-entry ledger, no tax engine) and not yet a multi-company SaaS. If your
+products have no serial numbers at all, a simpler inventory tool may suit you better, although ssERP handles
+quantity-tracked products too.
+
+## Project status
+
+**v0.1.x is alpha.** The data model and the core flows are complete and tested, but the project is new and has not
+yet been used widely in production. Keep backups and try it with your data on a test install first.
+
+Verified for v0.1.0:
+
+- Unit tests (`npm test`), database tests on a throwaway plain PostgreSQL covering locking, races, tenancy and branch
+  isolation (`npm run test:db`), and a Playwright end-to-end flow on a production build with accessibility,
+  security-header and 375 px layout checks (`npm run test:e2e`), all in CI.
+- The web installer, on a production build against plain PostgreSQL (it is the first step of the end-to-end test), in a desktop browser.
+
+**Not yet verified by the maintainers:**
+
+- the **Neon** serverless driver path (automated tests use the `pg` driver),
+- the **Vercel** one-click deploy, including the Neon Marketplace integration's variable names,
+- **Docker**: `docker build`, Docker Compose and the bundled PostgreSQL profile,
+- **camera scanning** on real phones and **label printing** on real label printers (desktop browsers only so far).
+
+If you try any of these, please report the result in an issue, whether it worked or not.
 
 ## Screenshots
 
@@ -39,7 +111,7 @@ Bengali names render with Noto Sans Bengali: ![Customer with a Bengali name](doc
 **Products and inventory**
 - Products with categories and brands, SKU, purchase and sale price, warranty months and a low-stock threshold.
 - Per-unit serial/IMEI tracking (or plain quantity tracking for non-serial products).
-- Unit status machine: in stock, sold, returned, in service, damaged, returned to vendor, with a full event history per unit.
+- Unit status machine: in stock, sold, in service, damaged, returned to vendor, with a full event history per unit (customer returns, transfers and service are events in that history).
 - Stock report with valuation at cost.
 
 **Purchases**
@@ -111,7 +183,7 @@ Needs Node.js 20.9 or newer and a PostgreSQL database (Neon, or your own).
 ```bash
 git clone https://github.com/bemoshiur/Super-Simple-ERP-ssERP.git
 cd Super-Simple-ERP-ssERP
-./install.sh          # checks Node, runs npm install, then npm run setup
+./install.sh          # checks Node, runs npm ci, then npm run setup
 # same thing by hand:
 #   npm install && npm run setup
 npm run dev           # http://localhost:3000
@@ -290,7 +362,7 @@ In plain language, these are guarantees the code is built around (and tested for
 - **No overpaying.** Payments cannot exceed the amount due, even with two people paying at once.
 - **Nothing is silently deleted.** Corrections are returns, voids and reversing entries; the original records and their history stay. Every change is recorded in the activity log with who and when.
 - **Safe retries.** Saving a sale twice (double click, flaky network) does not create two invoices.
-- **Stock adjustments and their limits.** Inventory > Stock lets a manager correct stock with a reason (count correction, damage, loss, found, other). Quantity items can never go below zero. A serial unit can only be taken out of stock: there is no separate "lost" status, so a lost unit is marked **damaged** with the reason "loss" in its history, and /stock counts lost and damaged units together under "Damaged". Adjustments are valued at net cost and appear in the profit & loss as "Stock adjustments (write-offs net of found)". A stock count only reports serial differences; it never changes units. There is no vendor RMA flow yet: only units that are **in stock** can be returned to the vendor, so a damaged unit cannot be sent back through a purchase return. Bringing a damaged unit back into stock does not reverse its write-off.
+- **Stock adjustments and their limits.** Inventory > Stock lets a manager correct stock with a reason (count correction, damage, loss, found, other). Quantity items can never go below zero. A serial unit can only be taken out of stock: there is no separate "lost" status, so a lost unit is marked **damaged** with the reason "loss" in its history, and /stock counts lost and damaged units together under "Damaged". Adjustments are valued at net cost and appear in the profit & loss as "Stock adjustments (write-offs net of found)". A stock count only reports serial differences; it never changes units. There is no vendor RMA flow yet: only units that are **in stock** can be returned to the vendor, so a damaged unit cannot be sent back through a purchase return, and no screen moves a damaged unit back into stock.
 
 ## Development
 
@@ -335,10 +407,12 @@ src/components/ src/layouts/ src/assets/    UI shell, styles, fonts
 drizzle/            committed SQL migrations
 scripts/            setup, migrate, admin-reset, seed-demo, test-db.sh / e2e.sh (pg-throwaway.sh), icons, smoke scripts
 e2e/                Playwright smoke test and README screenshot capture
-docs/               SPEC, DATABASE, ROADMAP, THIRD_PARTY
+docs/               ARCHITECTURE, DATABASE, ROADMAP, SPEC, THIRD_PARTY, RELEASING, MAINTAINING; wiki/ (wiki sources)
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and [docs/DATABASE.md](docs/DATABASE.md) for the driver details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers, data model and invariants, and [docs/DATABASE.md](docs/DATABASE.md) for the driver details.
+
+Repository tooling: `npm run check:docs` checks relative links and anchors in the Markdown docs (CI runs it), `scripts/sync-labels.sh` applies [.github/labels.yml](.github/labels.yml), `scripts/sync-wiki.sh` publishes the wiki, and `node scripts/make-social-preview.mjs` renders [docs/social-preview.png](docs/social-preview.png).
 
 ## Troubleshooting
 
@@ -374,7 +448,17 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and [docs/
 
 **Can I import my existing stock?** Yes, for serial-tracked products: **Purchases > Import serials (CSV)** (`/purchases/import`) turns a CSV of serials, SKUs and unit costs into one purchase after a dry run (see [Scanning, labels and bulk import](#scanning-labels-and-bulk-import)). Quantity-only stock is entered as a normal purchase or a stock adjustment.
 
-**Where do I get help?** Open an issue using the templates. For security problems see [SECURITY.md](SECURITY.md).
+**Where do I get help?** See [Community and support](#community-and-support). For security problems see [SECURITY.md](SECURITY.md).
+
+## Community and support
+
+- **Wiki:** step-by-step guides, troubleshooting and FAQ at <https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki>. Its pages are generated from [docs/wiki/](docs/wiki/Home.md): improve them with a pull request; maintainers publish with `scripts/sync-wiki.sh` (GitHub creates the wiki repository only after the first page is saved once in the web UI).
+- **Questions and ideas:** [GitHub Discussions](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/discussions).
+- **Bugs and feature requests:** [issues](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/issues/new/choose) (forms ask for version, setup and steps; never paste secrets).
+- **Security:** report privately through a [security advisory](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/security/advisories/new), see [SECURITY.md](SECURITY.md).
+- **Contribute:** [CONTRIBUTING.md](CONTRIBUTING.md), issues labelled `good first issue` or `help wanted`, and the [roadmap](docs/ROADMAP.md).
+- **How the project is run:** [GOVERNANCE.md](GOVERNANCE.md), [SUPPORT.md](SUPPORT.md) (no private or paid support), [Code of Conduct](CODE_OF_CONDUCT.md), [releases](docs/RELEASING.md).
+- **Like it?** A star on GitHub helps other shops find ssERP. Citing it in writing: see [CITATION.cff](CITATION.cff).
 
 ## License
 
