@@ -1,0 +1,103 @@
+name: Bug report
+description: Something in ssERP does not work as documented
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        **Security problems do not belong here.** Report them privately:
+        https://github.com/bemoshiur/Super-Simple-ERP-ssERP/security/advisories/new (see SECURITY.md).
+
+        **Never paste** `DATABASE_URL`, `AUTH_SECRET`, `INSTALL_TOKEN`, passwords, session cookies or real customer data.
+        Replace them with `***` before submitting.
+  - type: input
+    id: version
+    attributes:
+      label: ssERP version or commit
+      description: The release tag (for example `v0.1.0`) or the commit SHA you are running.
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How are you running ssERP?
+      options:
+        - Vercel + Neon
+        - Local, npm run dev
+        - Local, npm run build && npm start
+        - Docker (docker compose)
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: database
+    attributes:
+      label: Database
+      options:
+        - Neon (DB_DRIVER auto or neon)
+        - Plain PostgreSQL (DB_DRIVER=pg)
+        - Bundled Docker Postgres (compose profile "postgres")
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Node.js version, PostgreSQL version, browser and device
+      placeholder: Node 22.12, PostgreSQL 16, Chrome 131 on Android
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Installer / setup
+        - Sign-in, users, roles
+        - Products and inventory
+        - Purchases and serial import
+        - Sales, POS, returns
+        - Serial lookup, warranty, service
+        - Accounts and reports
+        - Branches and transfers
+        - Barcode scanning and labels
+        - Docker / deployment
+        - Documentation
+        - Other
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Start from a known state, for example a fresh install with `npm run seed:demo`.
+      placeholder: |
+        1. Sign in as a user with the Salesman role
+        2. Open Sales > New and scan serial ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: |
+        Server log lines, browser console errors or screenshots. Redact secrets, connection strings and customer data first.
+        ssERP logs only the error class and Postgres code, never query text, but check before pasting anyway.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and the wiki Troubleshooting page.
+          required: true
+        - label: I removed secrets, connection strings and real customer data from this report.
+          required: true

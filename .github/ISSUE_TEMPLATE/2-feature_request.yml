@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+title: "[Feature]: "
+labels: [enhancement, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check the [roadmap](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/ROADMAP.md) first:
+        many ideas (Bengali UI, API, in-transit transfers, Excel import) are already planned. A thumbs-up on an existing
+        issue helps us prioritise more than a duplicate.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation in your shop, not the solution. Who does what, and where does it hurt?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to see?
+    validations:
+      required: true
+  - type: textarea
+    id: integrity
+    attributes:
+      label: Money, stock or permission impact
+      description: Does this change how money, stock, serial status or who-can-see-what works? Say so here.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds you considered
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I would like to work on this myself (see CONTRIBUTING.md).

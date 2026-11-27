@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Report a security vulnerability
+  - name: Report a security vulnerability (private)
     url: https://github.com/bemoshiur/Super-Simple-ERP-ssERP/security/advisories/new
-    about: Please report vulnerabilities privately, not as a public issue.
+    about: Never report vulnerabilities in a public issue. Use a private security advisory (see SECURITY.md).
+  - name: Ask a question in Discussions
+    url: https://github.com/bemoshiur/Super-Simple-ERP-ssERP/discussions
+    about: How-to questions, ideas and show-and-tell.
+  - name: Read the wiki
+    url: https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki
+    about: Installation guides, configuration, troubleshooting and FAQ.
