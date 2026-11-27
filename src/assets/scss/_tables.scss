@@ -1,0 +1,68 @@
+// Data tables. Tables never widen the page: they scroll inside their own container (.table-responsive).
+
+.table {
+  --bs-table-hover-bg: #{rgba($ss-brand, 0.04)};
+  margin-bottom: 0;
+  vertical-align: middle;
+
+  > thead th {
+    border-bottom-width: 1px;
+    background: var(--bs-tertiary-bg);
+    color: var(--ss-text-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  > tbody > tr:last-child > * {
+    border-bottom-width: 0;
+  }
+
+  > tfoot > tr > * {
+    border-top: 1px solid var(--ss-line-strong);
+    border-bottom: 0;
+    font-weight: 700;
+  }
+}
+
+.card .table-responsive,
+.card > .table {
+  border-radius: 0 0 var(--ss-radius-lg) var(--ss-radius-lg);
+}
+
+.table-responsive {
+  -webkit-overflow-scrolling: touch;
+}
+
+// The shared DataTable component.
+.ss-table {
+  > thead th.is-sortable {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      color: var(--ss-text);
+    }
+  }
+
+  .ss-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+}
+
+// Wide report tables: first column stays readable, numbers right-aligned by the page.
+.report-table td,
+.report-table th {
+  white-space: nowrap;
+}

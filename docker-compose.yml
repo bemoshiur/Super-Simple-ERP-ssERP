@@ -1,0 +1,54 @@
+# ssERP with Docker Compose.
+#
+#   cp .env.example .env      # then fill in DATABASE_URL, AUTH_SECRET, INSTALL_TOKEN
+#   docker compose up -d --build
+#   open http://localhost:3000/install
+#
+# The app container only needs a PostgreSQL connection string. Use Neon (recommended) or any Postgres.
+# To run a local Postgres alongside the app instead, enable the "postgres" profile:
+#   docker compose --profile postgres up -d --build
+# and set in .env (the POSTGRES_* values must match):
+#   POSTGRES_PASSWORD=choose-a-password
+#   DATABASE_URL=postgresql://sserp:choose-a-password@postgres:5432/sserp
+#   DB_DRIVER=pg
+#
+# Upgrading: back up the database, pull the new version, then apply its migrations BEFORE starting the new app:
+#   docker compose --profile migrate run --rm --build migrate   # add --profile postgres with the bundled Postgres
+#   docker compose up -d --build
+services:
+  app:
+    build: .
+    image: sserp:latest
+    env_file: .env
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+
+  # One-shot: applies the migrations in drizzle/ to DATABASE_URL and exits (Dockerfile stage "migrate").
+  migrate:
+    profiles: ['migrate']
+    build:
+      context: .
+      target: migrate
+    image: sserp-migrate:latest
+    env_file: .env
+    restart: 'no'
+
+  postgres:
+    profiles: ['postgres']
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sserp
+      POSTGRES_DB: sserp
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+    volumes:
+      - sserp-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U sserp -d sserp']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  sserp-pgdata:

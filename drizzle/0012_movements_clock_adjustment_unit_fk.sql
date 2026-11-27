@@ -1,0 +1,2 @@
+ALTER TABLE "stock_movements" ALTER COLUMN "created_at" SET DEFAULT clock_timestamp();--> statement-breakpoint
+ALTER TABLE "stock_adjustments" ADD CONSTRAINT "stock_adjustments_unit_id_product_units_id_fk" FOREIGN KEY ("unit_id") REFERENCES "public"."product_units"("id") ON DELETE restrict ON UPDATE no action;

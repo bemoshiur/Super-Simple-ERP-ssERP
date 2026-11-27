@@ -1,0 +1,2 @@
+ALTER TABLE "purchases" ADD COLUMN "returned_total" numeric(14, 2) DEFAULT '0' NOT NULL;--> statement-breakpoint
+ALTER TABLE "purchases" ADD CONSTRAINT "purchases_amounts_nonneg" CHECK ("purchases"."subtotal" >= 0 and "purchases"."discount" >= 0 and "purchases"."total" >= 0 and "purchases"."paid" >= 0 and "purchases"."due" >= 0 and "purchases"."returned_total" >= 0);
