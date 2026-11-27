@@ -108,7 +108,7 @@ for (const file of files) {
 }
 
 if (errors.length) {
-  console.error(`check-links: ${errors.length} broken link(s) in ${files.length} files:\n` + errors.map((e) => `  ${e}`).join('\n'))
+  console.error(`check-links: ${errors.length} broken link(s) in ${files.length} files:\n` + errors.map((e) => `  ${e}`).join('\n')) // log-ok: prints the link checker's own findings (file paths), no caught error or secret
   process.exit(1)
 }
 console.log(`check-links: ${links} relative links in ${files.length} Markdown files OK.`)
