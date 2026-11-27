@@ -43,6 +43,7 @@ Built with Next.js 16, React 19, Drizzle ORM and PostgreSQL. [Neon](https://neon
 - [Multiple branches](#multiple-branches)
 - [Money and serial integrity](#money-and-serial-integrity)
 - [Development](#development)
+- [Working with AI coding assistants](#working-with-ai-coding-assistants)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
 - [Community and support](#community-and-support)
@@ -419,6 +420,10 @@ docs/               ARCHITECTURE, DATABASE, ROADMAP, SPEC, THIRD_PARTY, RELEASIN
 See [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers, data model and invariants, and [docs/DATABASE.md](docs/DATABASE.md) for the driver details.
 
 Repository tooling: `npm run check:docs` checks relative links and anchors in the Markdown docs (CI runs it), `scripts/sync-labels.sh` applies [.github/labels.yml](.github/labels.yml), `scripts/sync-wiki.sh` publishes the wiki, and `node scripts/make-social-preview.mjs` renders [docs/social-preview.png](docs/social-preview.png).
+
+## Working with AI coding assistants
+
+The repo ships guides so Claude Code, Cursor, GitHub Copilot, Codex, Windsurf and similar tools understand the project quickly and follow its rules: [`AGENTS.md`](AGENTS.md) (commands, structure, invariants, deploy playbook), [`CLAUDE.md`](CLAUDE.md), [`.cursor/rules`](.cursor/rules/sserp.mdc), [`.github/copilot-instructions.md`](.github/copilot-instructions.md), and for LLM crawlers [`llms.txt`](llms.txt) / [`llms-full.txt`](llms-full.txt) (regenerate with `npm run llms`). A prompt that works well: *"Read AGENTS.md, then deploy ssERP to Vercel with Neon following the deploy playbook."*
 
 ## Troubleshooting
 
