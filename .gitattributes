@@ -1,0 +1,19 @@
+# Normalise line endings: text files are stored and checked out with LF on every platform
+# (shell scripts and SQL migrations must not get CRLF on Windows).
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary
+*.pdf binary
+
+# Generated files: collapsed in pull request diffs and excluded from language statistics.
+package-lock.json linguist-generated=true
+drizzle/meta/** linguist-generated=true
+src/assets/icons/lucide.json linguist-generated=true
+
+# Documentation is not counted as code in the language bar.
+docs/** linguist-documentation=true
+*.md linguist-documentation=true

@@ -1,6 +1,13 @@
 # ssERP (সুপার সিম্পল ERP)
 
-[English README](README.md)
+**সিরিয়াল-ভিত্তিক ERP, ইনভেন্টরি ও বিলিং।** ওপেন সোর্স, MIT লাইসেন্স।
+
+[![CI](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/bemoshiur/Super-Simple-ERP-ssERP?include_prereleases&sort=semver)](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/releases)
+
+[English README](README.md) · [উইকি](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki) · [বাংলা গাইড (উইকির উৎস)](docs/wiki/বাংলা-গাইড.md) · [রোডম্যাপ](docs/ROADMAP.md) · [সাহায্য](SUPPORT.md) · [নিরাপত্তা](SECURITY.md)
 
 ssERP একটি ওপেন-সোর্স ERP, ইনভেন্টরি ও বিলিং সফটওয়্যার, যেটি বিশেষভাবে সেইসব দোকানের জন্য যেখানে প্রতিটি পণ্যের আলাদা **সিরিয়াল নম্বর বা IMEI** থাকে: মোবাইল ফোন, সিসিটিভি ক্যামেরা, ল্যাপটপ, ইলেকট্রনিক্স ইত্যাদি। প্রতিটি ইউনিট ভেন্ডরের কাছ থেকে কেনা থেকে শুরু করে কাস্টমারের হাতে যাওয়া এবং ওয়ারেন্টি ও সার্ভিস পর্যন্ত ট্র্যাক করা হয়।
 
@@ -10,7 +17,39 @@ ssERP একটি ওপেন-সোর্স ERP, ইনভেন্টরি
 
 Next.js, Drizzle ORM ও PostgreSQL দিয়ে তৈরি। ডাটাবেসের জন্য [Neon](https://neon.tech) (ফ্রি টিয়ার আছে) সুপারিশ করা হয়, তবে সাধারণ যেকোনো PostgreSQL-ও চলবে। ইন্টারফেস ইংরেজিতে; তবে টাকার ঘরে `1,00,000`-এর মতো লাখ-কমা পদ্ধতি লেখা যায় এবং ডিফল্ট টাইম জোন `Asia/Dhaka`।
 
-> বর্তমান সংস্করণ **v0.1.0**। যা এখনো তৈরি হয়নি তা [রোডম্যাপে](docs/ROADMAP.md) দেখুন।
+> বর্তমান সংস্করণ **v0.1.0** (আলফা, প্রথম পাবলিক রিলিজ)। যা এখনো তৈরি হয়নি তা [রোডম্যাপে](docs/ROADMAP.md) দেখুন।
+
+## কেন ssERP
+
+বেশিরভাগ ছোট দোকানের বিলিং সফটওয়্যার স্টককে শুধু একটি সংখ্যা হিসেবে গোনে। কিন্তু মোবাইল, ক্যামেরা বা ল্যাপটপের
+দোকানকে প্রতিটি **আলাদা ইউনিট** সম্পর্কে জানতে হয়: কোথা থেকে এল, দাম কত ছিল, কে কিনল, ওয়ারেন্টি কবে শেষ, আর
+এর মধ্যে কী কী ঘটেছে। ssERP এই ইউনিটকে কেন্দ্র করেই তৈরি:
+
+- **প্রতিটি ইউনিটের আলাদা রেকর্ড** ও অবস্থা (স্টকে, বিক্রি হয়েছে, সার্ভিসে, নষ্ট, ভেন্ডরকে ফেরত), সাথে ক্রয় থেকে
+  সার্ভিস পর্যন্ত পুরো ইতিহাস।
+- **স্ক্যান করে কাজ:** ক্রয়, বিক্রি, সিরিয়াল সার্চ ও স্টক গণনায় USB স্ক্যানার বা ফোনের ক্যামেরা; QR লেবেল প্রিন্ট।
+- **নির্ভুল হিসাব:** পয়সা পর্যন্ত সঠিক অঙ্ক, প্রতিটি কাজ একটি ট্রানজেকশনে, ফেরত ও স্টক সমন্বয়সহ লাভ-ক্ষতি।
+- **ছোট টিমের জন্য:** সেলসম্যানের কাছ থেকে ক্রয়মূল্য লুকানো যায়, একাধিক শাখা ও স্টক ট্রান্সফার, ফ্রি Vercel + Neon-এ চালানো যায়।
+- **বাংলাদেশের উপযোগী:** লাখ-কমা, `৳`, `Asia/Dhaka`, শুরু থেকেই bKash অ্যাকাউন্ট, বাংলা লেখা ঠিকভাবে দেখায়।
+
+এটি পূর্ণাঙ্গ অ্যাকাউন্টিং প্যাকেজ নয় (ডাবল-এন্ট্রি লেজার বা ভ্যাট হিসাব নেই) এবং এখনো মাল্টি-কোম্পানি SaaS নয়।
+
+## প্রজেক্টের অবস্থা
+
+**v0.1.x আলফা পর্যায়ে।** মূল কাজগুলো তৈরি ও টেস্ট করা, তবে প্রজেক্টটি নতুন। ব্যাকআপ রাখুন এবং আগে একটি টেস্ট
+ইনস্টলে নিজের ডাটা দিয়ে চালিয়ে দেখুন।
+
+যাচাই করা হয়েছে: ইউনিট টেস্ট, সাধারণ PostgreSQL-এ ডাটাবেস টেস্ট (লকিং, একসাথে বিক্রি, শাখা আলাদা রাখা), এবং
+প্রোডাকশন বিল্ডে Playwright এন্ড-টু-এন্ড টেস্ট (ওয়েব ইনস্টলার থেকে বিক্রি, রিপোর্ট ও ট্রান্সফার পর্যন্ত), সবই CI-তে।
+
+**মেইনটেইনাররা এখনো যাচাই করেননি:**
+
+- **Neon**-এর সার্ভারলেস ড্রাইভার (স্বয়ংক্রিয় টেস্ট `pg` ড্রাইভারে চলে),
+- **Vercel**-এর ওয়ান-ক্লিক ডিপ্লয় ও Neon ইন্টিগ্রেশনের ভ্যারিয়েবলের নাম,
+- **Docker** (`docker build`, Docker Compose ও সাথের PostgreSQL),
+- আসল ফোনে **ক্যামেরা স্ক্যান** ও আসল লেবেল প্রিন্টারে **লেবেল প্রিন্ট** (এখন পর্যন্ত শুধু ডেস্কটপ ব্রাউজারে)।
+
+এগুলোর কোনোটি চালিয়ে দেখলে, কাজ করুক বা না করুক, একটি ইস্যুতে ফলাফল জানালে খুব উপকার হয়।
 
 ## স্ক্রিনশট
 
@@ -66,7 +105,7 @@ Node.js ২০.৯ বা নতুন এবং একটি PostgreSQL ডা�
 ```bash
 git clone https://github.com/bemoshiur/Super-Simple-ERP-ssERP.git
 cd Super-Simple-ERP-ssERP
-./install.sh        # Node যাচাই করে, npm install চালায়, তারপর npm run setup
+./install.sh        # Node যাচাই করে, npm ci চালায়, তারপর npm run setup
 # অথবা হাতে হাতে:  npm install && npm run setup
 npm run dev         # http://localhost:3000
 ```
@@ -122,7 +161,16 @@ npm run admin:reset -- --email admin@yourshop.com
 - নিয়মিত ডাটাবেস ব্যাকআপ রাখুন। Neon-এ ব্রাঞ্চিং ও পয়েন্ট-ইন-টাইম রিস্টোর আছে।
 - নিরাপত্তা-ত্রুটি পেলে প্রকাশ্যে ইস্যু না খুলে [SECURITY.md](SECURITY.md) অনুযায়ী GitHub-এর প্রাইভেট অ্যাডভাইজরিতে জানান।
 
-বাকি সব বিস্তারিত (কনফিগারেশন টেবিল, রোল ও পারমিশন, ডেভেলপমেন্ট, ট্রাবলশুটিং, FAQ) [English README](README.md)-তে আছে।
+বাকি সব বিস্তারিত (কনফিগারেশন টেবিল, রোল ও পারমিশন, ডেভেলপমেন্ট, ট্রাবলশুটিং, FAQ) [English README](README.md)-তে এবং [উইকিতে](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki) আছে।
+
+## কমিউনিটি ও সাহায্য
+
+- **উইকি:** ধাপে ধাপে গাইড, ট্রাবলশুটিং ও FAQ: <https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki>। পেজগুলো [docs/wiki/](docs/wiki/Home.md) ফোল্ডার থেকে তৈরি হয়; উন্নত করতে চাইলে সেখানে পুল রিকোয়েস্ট দিন।
+- **প্রশ্ন ও আইডিয়া:** [GitHub Discussions](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/discussions) (বাংলায় প্রশ্ন করা যাবে)।
+- **বাগ ও নতুন ফিচারের অনুরোধ:** [ইস্যু](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/issues/new/choose)। পাসওয়ার্ড, কানেকশন স্ট্রিং বা কাস্টমারের তথ্য কখনো দেবেন না।
+- **অবদান রাখতে:** [CONTRIBUTING.md](CONTRIBUTING.md), `good first issue` লেবেলের ইস্যু, এবং [রোডম্যাপ](docs/ROADMAP.md)।
+- **প্রজেক্ট পরিচালনা:** [GOVERNANCE.md](GOVERNANCE.md), [SUPPORT.md](SUPPORT.md) (কোনো প্রাইভেট বা পেইড সাপোর্ট নেই), [আচরণবিধি](CODE_OF_CONDUCT.md)।
+- **ভালো লাগলে** GitHub-এ একটি স্টার দিন; এতে অন্য দোকানদাররাও ssERP খুঁজে পান।
 
 ## লাইসেন্স
 

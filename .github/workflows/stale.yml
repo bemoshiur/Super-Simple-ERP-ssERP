@@ -1,0 +1,43 @@
+# Conservative stale policy: an issue or pull request with no activity for 60 days is labelled `stale`, and closed 14
+# days later if still nobody responds. Any comment or update removes the label. Security, roadmap, pinned and
+# community-tagged items are never touched, nor are dependency pull requests (Dependabot adds `dependencies`).
+name: Stale
+
+on:
+  schedule:
+    - cron: '17 5 * * *' # daily 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stale
+  cancel-in-progress: false
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
+        with:
+          days-before-stale: 60
+          days-before-close: 14
+          stale-issue-label: stale
+          stale-pr-label: stale
+          exempt-issue-labels: pinned,security,help wanted,good first issue,roadmap,confirmed,in-progress
+          exempt-pr-labels: pinned,security,help wanted,good first issue,roadmap,dependencies,in-progress
+          exempt-draft-pr: true
+          stale-issue-message: >
+            This issue has had no activity for 60 days, so it is marked stale. It will be closed in 14 days unless
+            someone comments. If it still matters, please add a comment with any new details.
+          stale-pr-message: >
+            This pull request has had no activity for 60 days, so it is marked stale. It will be closed in 14 days
+            unless it is updated or someone comments.
+          close-issue-message: Closed after 74 days without activity. Comment or open a new issue if this is still a problem.
+          close-pr-message: Closed after 74 days without activity. Feel free to reopen it when you pick it up again.
+          operations-per-run: 60

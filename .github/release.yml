@@ -1,0 +1,29 @@
+# Categories for GitHub's automatically generated release notes (used by .github/workflows/release.yml).
+# A pull request lands in the first category whose labels match. Labels are defined in .github/labels.yml.
+changelog:
+  exclude:
+    labels:
+      - duplicate
+      - wontfix
+  categories:
+    - title: Security
+      labels:
+        - security
+    - title: Breaking changes
+      labels:
+        - breaking-change
+    - title: Features
+      labels:
+        - enhancement
+    - title: Fixes
+      labels:
+        - bug
+    - title: Docs
+      labels:
+        - documentation
+    - title: Dependencies
+      labels:
+        - dependencies
+    - title: Maintenance
+      labels:
+        - "*"

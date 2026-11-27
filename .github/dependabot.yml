@@ -1,11 +1,87 @@
+# Dependency update policy (also described in CONTRIBUTING.md):
+# - Minor and patch updates arrive weekly, grouped into one pull request per group.
+# - Major versions of core frameworks are NOT proposed: they need code or data migration and are done by maintainers
+#   in dedicated pull requests. Security updates are not affected by these rules.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
+      day: monday
     open-pull-requests-limit: 5
+    labels: [dependencies]
+    commit-message:
+      prefix: build
+      include: scope # "build(deps): ..." / "build(deps-dev): ..."
+    groups:
+      production-deps:
+        dependency-type: production
+        update-types: [minor, patch]
+      dev-deps:
+        dependency-type: development
+        update-types: [minor, patch]
+    ignore:
+      # Core frameworks: major upgrades are manual (see CONTRIBUTING.md, "Dependency updates").
+      - dependency-name: next
+        update-types: [version-update:semver-major]
+      - dependency-name: eslint-config-next
+        update-types: [version-update:semver-major]
+      - dependency-name: react
+        update-types: [version-update:semver-major]
+      - dependency-name: react-dom
+        update-types: [version-update:semver-major]
+      - dependency-name: '@types/react'
+        update-types: [version-update:semver-major]
+      - dependency-name: '@types/react-dom'
+        update-types: [version-update:semver-major]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      - dependency-name: vitest
+        update-types: [version-update:semver-major]
+      - dependency-name: '@types/node'
+        update-types: [version-update:semver-major]
+      - dependency-name: drizzle-orm
+        update-types: [version-update:semver-major]
+      - dependency-name: drizzle-kit
+        update-types: [version-update:semver-major]
+      - dependency-name: '@tanstack/react-table'
+        update-types: [version-update:semver-major]
+      - dependency-name: bootstrap
+        update-types: [version-update:semver-major]
+      - dependency-name: react-bootstrap
+        update-types: [version-update:semver-major]
+      - dependency-name: zod
+        update-types: [version-update:semver-major]
+      # sass: minor and patch only (Bootstrap 5 Sass compatibility is checked by hand on majors).
+      - dependency-name: sass
+        update-types: [version-update:semver-major]
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: [dependencies, ci]
+    commit-message:
+      prefix: ci
+      include: scope # "ci(deps): ..."
+    groups:
+      github-actions:
+        patterns: ['*']
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 2
+    labels: [dependencies, area:docker]
+    commit-message:
+      prefix: build
+      include: scope
+    ignore:
+      # node:22-alpine -> node:24 is a runtime upgrade done by hand (engines, CI matrix, .nvmrc together).
+      - dependency-name: node
+        update-types: [version-update:semver-major]

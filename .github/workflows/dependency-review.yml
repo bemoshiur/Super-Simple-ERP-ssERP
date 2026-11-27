@@ -1,0 +1,33 @@
+name: Dependency review
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Review dependency changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write # post the summary comment on the pull request
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/dependency-review-action@bbc44d14a204704ccc493733616cd1e93a0321ec # v5.0.1
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+          # Licences already present in package-lock.json, all compatible with shipping ssERP under MIT.
+          # CC-BY-4.0: caniuse-lite (browser data used by the build). LGPL-3.0-or-later: the prebuilt libvips binaries
+          # of sharp (@img/sharp-libvips-*, dynamically loaded image library). Anything else needs a maintainer decision.
+          allow-licenses: >-
+            MIT, ISC, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, OFL-1.1, 0BSD, CC0-1.0, Python-2.0,
+            BlueOak-1.0.0, Unlicense, CC-BY-4.0, LGPL-3.0-or-later

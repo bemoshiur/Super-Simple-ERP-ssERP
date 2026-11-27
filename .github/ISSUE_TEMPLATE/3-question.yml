@@ -1,0 +1,23 @@
+name: Question
+description: Ask how to do something (GitHub Discussions is the better place, if it is enabled)
+title: "[Question]: "
+labels: [question, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questions are best asked in [GitHub Discussions](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/discussions),
+        where answers help the next person too. Please also check the
+        [wiki](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki) (Troubleshooting and FAQ pages).
+        If Discussions is not available, ask here.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: What you tried
+      description: Version, how you run ssERP, and what you already looked at. Do not paste secrets or connection strings.

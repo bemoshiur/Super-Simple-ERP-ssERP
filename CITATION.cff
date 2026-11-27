@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use or reference ssERP, please cite it using the metadata below."
+type: software
+title: "ssERP (Super Simple ERP)"
+abstract: >-
+  Open-source ERP, inventory and billing for shops that sell serialised goods (phones, CCTV, laptops, appliances).
+  Tracks each unit by serial number or IMEI from the vendor's invoice to the customer and on into warranty and service.
+  Built with Next.js, React, Drizzle ORM and PostgreSQL (Neon recommended).
+authors:
+  - given-names: "S M Moshiur"
+    family-names: "Rahman"
+    alias: "bemoshiur"
+version: "0.1.0"
+license: MIT
+repository-code: "https://github.com/bemoshiur/Super-Simple-ERP-ssERP"
+url: "https://github.com/bemoshiur/Super-Simple-ERP-ssERP"
+keywords:
+  - erp
+  - inventory
+  - billing
+  - point-of-sale
+  - serial-number
+  - imei
+  - warranty
+  - nextjs
+  - postgresql

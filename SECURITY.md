@@ -18,7 +18,8 @@ Include what you found, how to reproduce it, the version or commit, and the impa
 customer data or live credentials.
 
 What to expect: an acknowledgement as soon as a maintainer can look (this is a volunteer project, so there is no guaranteed
-response time), a discussion in the private advisory, a fix, and credit in the release notes if you want it. Please give us
+response time; our targets are an acknowledgement within 72 hours and a fix plan within 14 days, see
+[docs/MAINTAINING.md](docs/MAINTAINING.md#security-response)), a discussion in the private advisory, a fix, and credit in the release notes if you want it. Please give us
 reasonable time to release a fix before disclosing publicly.
 
 ## Scope
