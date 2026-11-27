@@ -1,0 +1,186 @@
+// Custom properties, typography and accessibility basics.
+
+:root {
+  --ss-brand: #{$ss-brand};
+  --ss-brand-rgb: #{to-rgb($ss-brand)};
+  --ss-brand-strong: #{$ss-brand-strong};
+  --ss-accent: #{$ss-accent};
+  --ss-ink: #{$ss-ink};
+  --ss-ink-raised: #{$ss-ink-raised};
+  --ss-canvas: #{$ss-canvas};
+  --ss-surface: #{$ss-surface};
+  --ss-line: #{$ss-line};
+  --ss-line-strong: #{$ss-line-strong};
+  --ss-text: #{$ss-text};
+  --ss-text-muted: #{$ss-text-muted};
+  --ss-on-ink: #{$ss-text-on-ink};
+  --ss-on-ink-muted: #{$ss-text-on-ink-muted};
+  --ss-focus-ring: #{rgba($ss-brand, 0.45)};
+  --ss-nav-width: #{$ss-nav-width};
+  --ss-nav-width-collapsed: #{$ss-nav-width-collapsed};
+  --ss-topbar-height: #{$ss-topbar-height};
+  --ss-radius: #{$border-radius};
+  --ss-radius-lg: #{$border-radius-lg};
+  --ss-shadow-sm: #{$box-shadow-sm};
+  --ss-shadow: #{$box-shadow};
+  --ss-chart-grid: #e7ecf1;
+  --ss-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-feature-settings: 'tnum' 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Bengali glyphs sit taller than Latin ones; give mixed text a little more room.
+:lang(bn) {
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.005em;
+}
+
+// Figures line up in columns of money and quantities.
+.text-end,
+.font-monospace,
+td.text-nowrap {
+  font-variant-numeric: tabular-nums;
+}
+
+code {
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  background: rgba($ss-brand, 0.07);
+  color: $ss-brand-strong;
+  font-size: 0.85em;
+}
+
+// ---- Focus ----------------------------------------------------------------------------------------------------------
+// Keyboard focus is always visible; mouse clicks do not leave rings behind.
+:focus-visible {
+  outline: 2px solid var(--ss-brand);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.page-link:focus-visible,
+.nav-link:focus-visible,
+.dropdown-item:focus-visible {
+  outline: 2px solid var(--ss-brand);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+// The main region receives programmatic focus from the skip link: no ring on the whole page.
+main[tabindex='-1']:focus {
+  outline: none;
+}
+
+.ss-skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: $zindex-toast + 10;
+  padding: 0.5rem 1rem;
+  border-radius: var(--ss-radius);
+  background: var(--ss-ink);
+  color: #fff;
+  font-weight: 700;
+  transform: translateY(-200%);
+  transition: transform 0.15s var(--ss-ease);
+
+  &:focus,
+  &:focus-visible {
+    transform: none;
+    color: #fff;
+    text-decoration: none;
+    outline: 2px solid var(--ss-accent);
+  }
+}
+
+// ---- Scrollbars -----------------------------------------------------------------------------------------------------
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba($ss-text, 0.25) transparent;
+}
+
+// ---- Small utilities used by the app --------------------------------------------------------------------------------
+.min-w-0 {
+  min-width: 0;
+}
+
+.text-2xs {
+  font-size: 0.6875rem;
+}
+
+.fw-extrabold {
+  font-weight: 800;
+}
+
+// Rounded square that holds an icon (KPI cards, report tiles).
+.icon-tile {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.625rem;
+
+  svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  &.icon-tile-lg {
+    width: 3.25rem;
+    height: 3.25rem;
+
+    svg {
+      width: 1.625rem;
+      height: 1.625rem;
+    }
+  }
+}
+
+// Colour swatch for initials (user menu).
+.ss-initials {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--ss-brand);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+// Back to the text font inside a monospace block (serial lists with product names).
+.font-sans {
+  font-family: var(--bs-font-sans-serif);
+}

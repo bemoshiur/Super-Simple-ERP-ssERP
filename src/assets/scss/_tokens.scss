@@ -1,0 +1,170 @@
+// ssERP design tokens.
+//
+// Palette: a calm blue-teal brand colour on cool neutral greys, with a deep "ink" navigation column.
+// Every foreground/background pair used by the app is checked for WCAG AA (>= 4.5:1) contrast:
+//   brand #1b6b8f on white 5.9:1 · muted text #566170 on the page background 5.8:1 · nav text on ink 10.3:1.
+//
+// The Sass values below are handed to upstream Bootstrap (they are set BEFORE Bootstrap is imported, so its own
+// `!default` variables pick them up). The same values are re-exposed as `--ss-*` custom properties in _base.scss
+// for the application shell.
+
+// ---- Brand and neutrals ---------------------------------------------------------------------------------------------
+$ss-brand: #1b6b8f;
+$ss-brand-strong: #145470;
+$ss-accent: #4cc3bd; // teal highlight, used only on the dark navigation column (contrast 7.9:1 on ink)
+$ss-ink: #10273a; // navigation column
+$ss-ink-raised: #173550;
+$ss-canvas: #f3f5f8; // page background
+$ss-surface: #ffffff; // cards, top bar, dialogs
+$ss-line: #dfe5ec; // hairlines
+$ss-line-strong: #c9d2dc;
+$ss-text: #1f2933;
+$ss-text-muted: #566170;
+$ss-text-on-ink: #c8d6e2;
+$ss-text-on-ink-muted: #9fb3c4;
+
+// ---- Bootstrap configuration ----------------------------------------------------------------------------------------
+$primary: $ss-brand;
+$secondary: #55606e;
+$success: #167353;
+$info: #0d6c86;
+$warning: #a8420a;
+$danger: #b42318;
+$light: #eef2f6;
+$dark: $ss-text;
+
+// Lighter "subtle" tints than Bootstrap's default 80 %: tinted icon tiles and soft badges stay airy.
+$primary-bg-subtle: tint-color($primary, 88%);
+$secondary-bg-subtle: tint-color($secondary, 88%);
+$success-bg-subtle: tint-color($success, 88%);
+$info-bg-subtle: tint-color($info, 88%);
+$warning-bg-subtle: tint-color($warning, 88%);
+$danger-bg-subtle: tint-color($danger, 88%);
+
+$body-bg: $ss-canvas;
+$body-color: $ss-text;
+$body-secondary-color: $ss-text-muted;
+$body-tertiary-bg: #f7f9fb;
+$border-color: $ss-line;
+$headings-color: #14202b;
+$link-color: $ss-brand;
+$link-hover-color: $ss-brand-strong;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+$enable-negative-margins: true;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-smooth-scroll: false;
+
+// Typography: Nunito for Latin, Noto Sans Bengali for Bengali script. Both are self-hosted variable fonts exposed by
+// next/font/local as CSS variables on <html>; the browser falls through the stack per glyph.
+$font-family-sans-serif: var(--font-nunito), var(--font-bengali), system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans Bengali', 'Helvetica Neue', Arial, sans-serif;
+$font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+$font-size-base: 0.9375rem; // 15px: dense enough for ERP tables, still comfortable for Bengali conjuncts
+$font-size-sm: 0.8125rem;
+$font-size-lg: 1.0625rem;
+$line-height-base: 1.55;
+$font-weight-semibold: 600;
+$headings-font-weight: 700;
+$headings-line-height: 1.3;
+$h1-font-size: 1.625rem;
+$h2-font-size: 1.375rem;
+$h3-font-size: 1.1875rem;
+$h4-font-size: 1.0625rem;
+$h5-font-size: 1rem;
+$h6-font-size: 0.875rem;
+$small-font-size: 0.8125rem;
+
+$spacer: 1rem;
+$grid-gutter-width: 1.5rem;
+
+$border-radius: 0.5rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 0.75rem;
+$border-radius-xl: 1rem;
+
+$box-shadow-sm: 0 1px 2px rgba(16, 39, 58, 0.06);
+$box-shadow: 0 6px 18px rgba(16, 39, 58, 0.08);
+$box-shadow-lg: 0 16px 40px rgba(16, 39, 58, 0.14);
+
+// Components
+$input-btn-padding-y: 0.4375rem;
+$input-btn-padding-x: 0.875rem;
+$input-btn-focus-width: 0.2rem;
+$input-btn-focus-color-opacity: 0.22;
+$input-border-color: $ss-line-strong;
+$input-placeholder-color: #7b8694;
+$form-label-font-weight: 600;
+$form-label-margin-bottom: 0.375rem;
+$btn-font-weight: 600;
+$btn-white-space: nowrap;
+
+// Surfaces sit on the grey canvas: Bootstrap defaults these to the body background, ssERP makes them white.
+$card-bg: $ss-surface;
+$modal-content-bg: $ss-surface;
+$dropdown-bg: $ss-surface;
+$input-bg: $ss-surface;
+$pagination-bg: $ss-surface;
+$list-group-bg: $ss-surface;
+$popover-bg: $ss-surface;
+$toast-background-color: rgba($ss-surface, 0.97);
+$accordion-bg: $ss-surface;
+$offcanvas-bg-color: $ss-surface;
+$form-select-bg: $ss-surface;
+
+$card-border-color: $ss-line;
+$card-border-radius: $border-radius-lg;
+$card-cap-bg: transparent;
+$card-cap-padding-y: 0.875rem;
+$card-cap-padding-x: 1.25rem;
+$card-spacer-y: 1.25rem;
+$card-spacer-x: 1.25rem;
+$card-box-shadow: $box-shadow-sm;
+
+$table-cell-padding-y: 0.625rem;
+$table-cell-padding-x: 0.75rem;
+$table-cell-padding-y-sm: 0.375rem;
+$table-cell-padding-x-sm: 0.5rem;
+$table-border-color: $ss-line;
+$table-hover-bg-factor: 0.035;
+$table-striped-bg-factor: 0.025;
+
+$badge-font-weight: 600;
+$badge-padding-y: 0.3em;
+$badge-padding-x: 0.6em;
+$badge-border-radius: 999px;
+
+$breadcrumb-divider: quote('/');
+$breadcrumb-font-size: $font-size-sm;
+$breadcrumb-margin-bottom: 0.25rem;
+
+$dropdown-border-color: $ss-line;
+$dropdown-box-shadow: $box-shadow;
+$dropdown-link-hover-bg: #eef3f7;
+$dropdown-item-padding-y: 0.4375rem;
+
+$modal-content-border-color: transparent;
+$modal-content-border-radius: $border-radius-lg;
+$modal-header-border-color: $ss-line;
+$modal-footer-border-color: $ss-line;
+$modal-backdrop-opacity: 0.45;
+
+$pagination-border-color: $ss-line;
+$pagination-padding-y-sm: 0.3125rem;
+$pagination-padding-x-sm: 0.625rem;
+
+$nav-tabs-border-color: $ss-line;
+$nav-link-font-weight: 600;
+
+$toast-border-color: $ss-line;
+$toast-box-shadow: $box-shadow;
+
+$alert-border-radius: $border-radius;
+$progress-border-radius: 999px;
+
+// ---- Shell metrics --------------------------------------------------------------------------------------------------
+$ss-nav-width: 15.5rem;
+$ss-nav-width-collapsed: 4.5rem;
+$ss-topbar-height: 3.75rem;
+$ss-shell-breakpoint: lg; // below this the navigation is an off-canvas drawer

@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, typecheck, unit tests, build (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Licence guard (no theme identifiers; the reference comparison skips without the local theme package)
+        run: npm run check:theme -- --identifiers
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      - name: Build (dummy environment, no database needed)
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://user:password@localhost:5432/sserp
+          AUTH_SECRET: ci-build-secret-ci-build-secret-0123456789
+          NEXT_TELEMETRY_DISABLED: '1'
+
+  db-tests:
+    name: Database integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install PostgreSQL server binaries (scripts/test-db.sh starts its own throwaway server)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql
+          echo "$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)" >> "$GITHUB_PATH"
+      - name: Fail if the PostgreSQL binaries are missing (test:db would otherwise skip silently)
+        run: command -v initdb && command -v pg_ctl
+      - run: npm ci
+      - run: npm run test:db
+
+  e2e:
+    name: End-to-end smoke test (Playwright)
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    timeout-minutes: 30
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install PostgreSQL server binaries (scripts/e2e.sh starts its own throwaway server)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql
+          echo "$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)" >> "$GITHUB_PATH"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: 'true'
+      - name: Upload Playwright report and failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7

@@ -1,0 +1,51 @@
+// Form controls.
+
+.form-control,
+.form-select {
+  background-color: var(--ss-surface);
+
+  &:disabled,
+  &[readonly] {
+    background-color: var(--bs-tertiary-bg);
+  }
+}
+
+.form-text {
+  color: var(--ss-text-muted);
+}
+
+.form-check-input {
+  border-color: var(--ss-line-strong);
+}
+
+.form-check-label {
+  cursor: pointer;
+}
+
+.invalid-feedback {
+  font-weight: 600;
+}
+
+textarea.font-monospace {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+// Search inputs with a leading icon (list pages).
+.ss-search {
+  position: relative;
+  min-width: min(100%, 16.25rem);
+
+  .form-control {
+    padding-left: 2.5rem;
+  }
+
+  .ss-search__icon {
+    position: absolute;
+    top: 50%;
+    left: 0.875rem;
+    color: var(--ss-text-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
