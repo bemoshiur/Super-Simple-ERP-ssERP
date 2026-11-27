@@ -1,0 +1,35 @@
+# Welcomes first-time issue authors and pull request contributors. pull_request_target runs with the base branch's
+# workflow and token, so this job must never check out or run code from the pull request (it does not).
+name: Greetings
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: greetings-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
+        with:
+          issue_message: |
+            Thanks for opening your first issue in ssERP! A maintainer will triage it (see docs/MAINTAINING.md for
+            how that works). Meanwhile, the [wiki](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/wiki) has
+            Troubleshooting and FAQ pages. Please make sure the issue contains no secrets or customer data.
+          pr_message: |
+            Thanks for your first pull request to ssERP! Please check the invariants in
+            [CONTRIBUTING.md](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/CONTRIBUTING.md) and tick
+            the checklist in the description. CI runs lint, typecheck, unit, database and end-to-end tests.

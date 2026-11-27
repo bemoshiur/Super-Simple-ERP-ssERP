@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:theme": "node scripts/theme-inventory.mjs",
+    "check:docs": "node scripts/check-links.mjs",
     "format": "prettier --write './src/**/*.{ts,tsx,js,jsx}'",
     "test": "vitest run",
     "test:db": "bash scripts/test-db.sh",
