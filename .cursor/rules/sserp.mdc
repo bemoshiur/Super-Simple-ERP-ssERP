@@ -1,0 +1,15 @@
+---
+description: ssERP project rules (read AGENTS.md for the full guide)
+alwaysApply: true
+---
+
+Follow `AGENTS.md` in the repository root. Essentials:
+
+- Stack: Next.js 16 App Router, TypeScript strict, Drizzle ORM, PostgreSQL (Neon recommended), npm.
+- Scope every business query by the session `companyId` (+ branch via `src/server/branch.ts`); never trust client ids.
+- Call `authorize(...)` first in every server action/route handler (`guarded()` / `guardedBranch()`).
+- No floating-point money: use `src/server/money.ts`, integer minor units, `numeric(14,2)`, server-computed totals.
+- Change unit status only through `src/server/serials.ts`; respect the lock order documented in AGENTS.md.
+- Migrations are append-only (`npm run db:generate`, commit the new SQL file).
+- Never log raw caught errors (`safeLog`/`safeErrorInfo`), never expose secrets, hashes or cost data without permission.
+- New logic needs tests (`*.test.ts`, and `*.db.test.ts` for DB/locking/money/serial changes). Before finishing: `npm run lint && npx tsc --noEmit && npm test`.

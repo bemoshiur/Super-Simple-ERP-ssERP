@@ -1,0 +1,36 @@
+# ssERP (Super Simple ERP)
+
+> Open-source ERP, inventory and billing that tracks every unit by serial number / IMEI, from the vendor's invoice to the customer, warranty and service. Next.js 16, TypeScript, Drizzle ORM, PostgreSQL (Neon recommended). MIT licensed. Alpha (v0.1.x).
+
+ssERP is built for shops that sell serialised goods (phones, CCTV, laptops, appliances). Key idea: one `product_units` row per physical unit with an append-only event history; stock is the count of in-stock units, never a hand-edited number. Money is exact (integer minor units, `numeric(14,2)`), every query is scoped by company (and branch), and a permission is checked before any input is read.
+
+## Start here
+
+- [README](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/README.md): what it is, install paths (Vercel + Neon, local, Docker), configuration table, security notes
+- [AGENTS.md](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/AGENTS.md): guide for AI coding agents: commands, structure, invariants, deploy playbook
+- [llms-full.txt](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/llms-full.txt): longer single-file briefing
+
+## Docs
+
+- [Architecture](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/ARCHITECTURE.md): layers, data model, lifecycle diagram, lock order
+- [Database](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/DATABASE.md): Neon vs plain Postgres, migrations
+- [Contributing](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/CONTRIBUTING.md): invariants every change must keep
+- [Security policy](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/SECURITY.md)
+- [Roadmap](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/ROADMAP.md)
+- [Wiki sources](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/tree/main/docs/wiki): user guides (serial tracking, POS, purchases and bulk import, stock, accounting and reports, roles, multi-branch, troubleshooting)
+- [Original product brief](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/SPEC.md)
+
+## Code map
+
+- [src/server/serials.ts](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/src/server/serials.ts): unit state machine (only place that changes unit status)
+- [src/server/sales](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/tree/main/src/server/sales) and [purchases](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/tree/main/src/server/purchases): document creation with serial intake/scan-to-sell, returns, payments
+- [src/server/lookup](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/tree/main/src/server/lookup): serial lookup and unit history
+- [src/server/db/schema](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/tree/main/src/server/db/schema): Drizzle schema (migrations in /drizzle, append-only)
+- [src/server/rbac.ts](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/src/server/rbac.ts): permission catalog and default roles
+- [src/server/money.ts](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/src/server/money.ts): exact money handling (supports Bangladeshi lakh grouping like 1,00,000)
+
+## Optional
+
+- [Changelog](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/CHANGELOG.md)
+- [Third-party notices](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/docs/THIRD_PARTY.md)
+- [বাংলা README](https://github.com/bemoshiur/Super-Simple-ERP-ssERP/blob/main/README.bn.md)
