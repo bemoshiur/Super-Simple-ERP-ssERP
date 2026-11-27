@@ -23,7 +23,8 @@
     "seed:demo": "tsx scripts/seed-demo.ts",
     "icons": "tsx scripts/build-icons.ts",
     "test:e2e": "bash scripts/e2e.sh",
-    "screenshots": "SCREENSHOTS=1 bash scripts/e2e.sh e2e/screenshots.spec.ts"
+    "screenshots": "SCREENSHOTS=1 bash scripts/e2e.sh e2e/screenshots.spec.ts",
+    "demo:gif": "bash scripts/demo-gif.sh"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.1",

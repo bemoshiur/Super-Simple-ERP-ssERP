@@ -30,6 +30,8 @@ npm run build
 
 CI runs the same checks.
 
+To regenerate the README demo (`docs/screenshots/demo.gif`, `demo.webm`, `demo-poster.png`), run `npm run demo:gif`. It starts the same throwaway PostgreSQL and app as `npm run test:e2e`, fills it with `npm run seed:demo` data, records `e2e/demo-video.spec.ts` with Playwright video, and encodes the files with `ffmpeg` (a system tool; the script stops with a message if it is missing). Add `DEMO_SKIP_RECORD=1` to only re-encode the last recording. The GIF is sized to stay under 6 MB.
+
 ## Branches and commits
 
 - Branch from `main`: `feat/short-name`, `fix/short-name`, `docs/short-name`, `chore/short-name`.
