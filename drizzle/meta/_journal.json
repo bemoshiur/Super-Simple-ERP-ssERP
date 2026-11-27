@@ -1,0 +1,132 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795703907330,
+      "tag": "0000_amused_black_bolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795704661894,
+      "tag": "0001_nasty_kat_farrell",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795707619341,
+      "tag": "0002_bright_talkback",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795708049934,
+      "tag": "0003_purchase_returned_total",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795711191959,
+      "tag": "0004_purchase_item_net_total",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795712205459,
+      "tag": "0005_sales_returns_warranty",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795713115419,
+      "tag": "0006_sale_line_link_idempotency_hash",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795713540939,
+      "tag": "0007_service_tickets_workflow",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795714030650,
+      "tag": "0008_unit_events_clock_timestamp",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795714587666,
+      "tag": "0009_accounting_voids_transfers",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795717191803,
+      "tag": "0010_login_attempts",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1795719042756,
+      "tag": "0011_stock_adjustments",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1795720453150,
+      "tag": "0012_movements_clock_adjustment_unit_fk",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1795721072702,
+      "tag": "0013_purchase_idempotency",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1795777664570,
+      "tag": "0014_enum_transfer",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1795777688332,
+      "tag": "0015_branches_scoping",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1795779951206,
+      "tag": "0016_transfer_hash_manager_sessions",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1795804816504,
+      "tag": "0017_serial_lower_idx",
+      "breakpoints": true
+    }
+  ]
+}

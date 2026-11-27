@@ -1,0 +1,24 @@
+// ssERP stylesheet entry point.
+//
+// Structure (all files are ssERP's own; only Bootstrap itself comes from node_modules):
+//   _tokens      design tokens: Sass values handed to Bootstrap + shell metrics
+//   bootstrap    upstream Bootstrap 5 from node_modules/bootstrap/scss (configured, never forked)
+//   _base        custom properties, typography, focus, small utilities
+//   _layout      application shell: navigation column, top bar, content frame, footer, page header
+//   _components  cards, buttons, badges, dropdowns, dialogs, tabs, pagination, toasts, empty states
+//   _tables      data tables
+//   _forms       form controls and the search-select combobox
+//   _auth        sign-in, installer and error pages
+//   _print       hide the shell when an admin screen is printed (documents have their own print CSS)
+
+@import 'bootstrap/scss/functions'; // tint-color() etc. for the tokens
+@import 'tokens';
+@import 'bootstrap/scss/bootstrap';
+
+@import 'base';
+@import 'layout';
+@import 'components';
+@import 'tables';
+@import 'forms';
+@import 'auth';
+@import 'print';

@@ -1,0 +1,1 @@
+CREATE INDEX "product_units_company_serial_lower_idx" ON "product_units" USING btree ("company_id",lower("serial_no") text_pattern_ops);

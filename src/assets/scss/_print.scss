@@ -1,0 +1,39 @@
+// Printing an ordinary admin screen (a report, a stock list): drop the shell and card chrome, keep the content.
+// Printable documents (invoices, purchase bills, transfer notes, labels) live under the (print) route group and carry
+// their own @page rules inline, so they do not depend on this file.
+
+@media print {
+  .ss-skip-link,
+  .ss-sidebar,
+  .ss-topbar,
+  .ss-footer,
+  .ss-page-head .breadcrumb,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  .ss-frame {
+    margin-left: 0 !important;
+  }
+
+  .ss-content {
+    padding: 0 !important;
+  }
+
+  .card {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .card-body {
+    padding: 0;
+  }
+
+  .table-responsive {
+    overflow: visible !important;
+  }
+}
